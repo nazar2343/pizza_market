@@ -3,7 +3,7 @@ import { Sort, sortList } from '../components/Sort';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { PizzaBlock } from '../components/PizzaBlock';
 import Pagination from '../components/Pagination';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
 	selectFilter,
 	setCategoryId,
@@ -14,10 +14,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import qs from 'qs';
 import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzasSlice';
 import Categories from '../components/Categories';
+import {useAppDispatch} from "../redux/store";
 
 const Home: React.FC = () => {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
 	const isSearch = useRef(false);
 	const isMounted = useRef(false);
 	const { categoryId, sort, currentPageCount, searchValue } =
@@ -45,7 +46,7 @@ const Home: React.FC = () => {
 				order,
 				category,
 				search,
-				currentPageCount,
+				currentPageCount: String(currentPageCount),
 			})
 		);
 
@@ -74,7 +75,7 @@ const Home: React.FC = () => {
 			dispatch(
 				setFilters({
 					...params,
-					sort,
+					sort: sort || sortList[0],
 				})
 			);
 			// isSearch.current = true
